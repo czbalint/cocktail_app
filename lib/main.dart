@@ -42,7 +42,7 @@ class _CocktailAppState extends State<CocktailApp> {
       ],
       child: MaterialApp(
         title: 'Cocktail app',
-        theme: ThemeData(primarySwatch: Colors.purple),
+        theme: ThemeData(primarySwatch: Colors.amber),
         home: const HomeScreen(),
         onGenerateRoute: (route) {
           switch(route.name) {

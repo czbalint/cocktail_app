@@ -34,7 +34,7 @@ class _CategoryDropDownState extends State<CategoryDropDown> {
             value: _selectedValue,
             underline: Container(
               height: 2,
-              color: Colors.purple,
+              color: Theme.of(context).primaryColor,
             ),
             menuMaxHeight: 300,
             items: catBloc.categories.map((category) => DropdownMenuItem(

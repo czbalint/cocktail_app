@@ -48,8 +48,8 @@ class HomeScreen extends StatelessWidget {
       ),
       body: LoaderOverlay(
         useDefaultLoading: false,
-        overlayWidget: const SpinKitPouringHourGlass(
-          color: Colors.purple,
+        overlayWidget: SpinKitPouringHourGlass(
+          color: Theme.of(context).primaryColor,
         ),
         child: SizedBox(
               width: MediaQuery.of(context).size.width,
