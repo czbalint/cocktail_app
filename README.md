@@ -1,2 +1,2 @@
 # cocktail_app
-Cocktail searching application
+Cocktail searching application in Flutter
