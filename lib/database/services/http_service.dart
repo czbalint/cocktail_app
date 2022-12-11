@@ -1,5 +1,5 @@
-import 'package:assignment/dto/category_response.dart';
-import 'package:assignment/dto/drink_response.dart';
+import 'package:assignment/database/dto/category_response.dart';
+import 'package:assignment/database/dto/drink_response.dart';
 import 'package:dio/dio.dart';
 
 class HttpService {
