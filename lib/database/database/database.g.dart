@@ -111,6 +111,15 @@ class _$DrinkDao extends DrinkDao {
                   'name': item.name,
                   'imageUrl': item.imageUrl,
                   'id': item.id
+                }),
+        _drinkDeletionAdapter = DeletionAdapter(
+            database,
+            'Drink',
+            ['id'],
+            (Drink item) => <String, Object?>{
+                  'name': item.name,
+                  'imageUrl': item.imageUrl,
+                  'id': item.id
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -120,6 +129,8 @@ class _$DrinkDao extends DrinkDao {
   final QueryAdapter _queryAdapter;
 
   final InsertionAdapter<Drink> _drinkInsertionAdapter;
+
+  final DeletionAdapter<Drink> _drinkDeletionAdapter;
 
   @override
   Future<List<Drink>> findAllDrink() async {
@@ -143,5 +154,10 @@ class _$DrinkDao extends DrinkDao {
   @override
   Future<void> insertDrink(Drink drink) async {
     await _drinkInsertionAdapter.insert(drink, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteDrink(Drink drink) async {
+    await _drinkDeletionAdapter.delete(drink);
   }
 }

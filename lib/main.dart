@@ -3,6 +3,7 @@ import 'package:assignment/UI/bloc/category/category_events.dart';
 import 'package:assignment/UI/bloc/favourite/favourite_cubit.dart';
 import 'package:assignment/UI/screens/favourite_page.dart';
 import 'package:assignment/UI/screens/home_screen.dart';
+import 'package:assignment/database/database/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,12 +20,18 @@ class CocktailApp extends StatefulWidget {
 
 class _CocktailAppState extends State<CocktailApp> {
   late CategoryBloc categoryBloc;
+  late DrinkDatabase database;
 
   @override
-  void initState() {
+  void initState()  {
+    intiDatabase();
     categoryBloc = CategoryBloc();
     categoryBloc.add(AppStarted());
     super.initState();
+  }
+
+  void intiDatabase() async {
+    database = await $FloorDrinkDatabase.databaseBuilder('app_database.db').build();
   }
 
   @override
@@ -35,7 +42,7 @@ class _CocktailAppState extends State<CocktailApp> {
           create: (context) => categoryBloc
         ),
         BlocProvider<FavouriteCubit>(
-          create: (context) => FavouriteCubit()
+          create: (context) => FavouriteCubit(database.drinkDao)
         )
       ],
       child: MaterialApp(

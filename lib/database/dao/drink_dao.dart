@@ -11,4 +11,7 @@ abstract class DrinkDao {
 
   @insert
   Future<void> insertDrink(Drink drink);
+
+  @delete
+  Future<void> deleteDrink(Drink drink);
 }
