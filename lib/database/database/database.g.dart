@@ -85,7 +85,7 @@ class _$DrinkDatabase extends DrinkDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Drink` (`name` TEXT NOT NULL, `imageUrl` TEXT NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `drinks` (`name` TEXT NOT NULL, `imageUrl` TEXT NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -104,19 +104,19 @@ class _$DrinkDao extends DrinkDao {
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database),
-        _drinkInsertionAdapter = InsertionAdapter(
+        _floorDrinkInsertionAdapter = InsertionAdapter(
             database,
-            'Drink',
-            (Drink item) => <String, Object?>{
+            'drinks',
+            (FloorDrink item) => <String, Object?>{
                   'name': item.name,
                   'imageUrl': item.imageUrl,
                   'id': item.id
                 }),
-        _drinkDeletionAdapter = DeletionAdapter(
+        _floorDrinkDeletionAdapter = DeletionAdapter(
             database,
-            'Drink',
+            'drinks',
             ['id'],
-            (Drink item) => <String, Object?>{
+            (FloorDrink item) => <String, Object?>{
                   'name': item.name,
                   'imageUrl': item.imageUrl,
                   'id': item.id
@@ -128,36 +128,32 @@ class _$DrinkDao extends DrinkDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<Drink> _drinkInsertionAdapter;
+  final InsertionAdapter<FloorDrink> _floorDrinkInsertionAdapter;
 
-  final DeletionAdapter<Drink> _drinkDeletionAdapter;
+  final DeletionAdapter<FloorDrink> _floorDrinkDeletionAdapter;
 
   @override
-  Future<List<Drink>> findAllDrink() async {
+  Future<List<FloorDrink>> findAllDrink() async {
     return _queryAdapter.queryList('SELECT * FROM Drinks',
-        mapper: (Map<String, Object?> row) => Drink(
-            name: row['name'] as String,
-            imageUrl: row['imageUrl'] as String,
-            id: row['id'] as String));
+        mapper: (Map<String, Object?> row) => FloorDrink(row['name'] as String,
+            row['imageUrl'] as String, row['id'] as String));
   }
 
   @override
-  Future<Drink?> findDrinkById(int id) async {
+  Future<FloorDrink?> findDrinkById(int id) async {
     return _queryAdapter.query('SELECT * FROM WHERE id = ?1',
-        mapper: (Map<String, Object?> row) => Drink(
-            name: row['name'] as String,
-            imageUrl: row['imageUrl'] as String,
-            id: row['id'] as String),
+        mapper: (Map<String, Object?> row) => FloorDrink(row['name'] as String,
+            row['imageUrl'] as String, row['id'] as String),
         arguments: [id]);
   }
 
   @override
-  Future<void> insertDrink(Drink drink) async {
-    await _drinkInsertionAdapter.insert(drink, OnConflictStrategy.abort);
+  Future<void> insertDrink(FloorDrink drink) async {
+    await _floorDrinkInsertionAdapter.insert(drink, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> deleteDrink(Drink drink) async {
-    await _drinkDeletionAdapter.delete(drink);
+  Future<void> deleteDrink(FloorDrink drink) async {
+    await _floorDrinkDeletionAdapter.delete(drink);
   }
 }

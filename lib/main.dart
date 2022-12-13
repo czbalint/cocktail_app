@@ -3,12 +3,25 @@ import 'package:assignment/UI/bloc/category/category_events.dart';
 import 'package:assignment/UI/bloc/favourite/favourite_cubit.dart';
 import 'package:assignment/UI/screens/favourite_page.dart';
 import 'package:assignment/UI/screens/home_screen.dart';
+import 'package:assignment/database/dao/floor_drink_repository.dart';
+import 'package:assignment/database/database/data_source.dart';
 import 'package:assignment/database/database/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const CocktailApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final dataSource = DataSource(FloorDrinkRepository());
+  await dataSource.init();
+
+
+  runApp(
+    Provider<DataSource>(
+      create: (_) => dataSource,
+      child: const CocktailApp(),
+    )
+  );
 }
 
 class CocktailApp extends StatefulWidget {
@@ -24,15 +37,12 @@ class _CocktailAppState extends State<CocktailApp> {
 
   @override
   void initState()  {
-    intiDatabase();
+
     categoryBloc = CategoryBloc();
     categoryBloc.add(AppStarted());
     super.initState();
   }
 
-  void intiDatabase() async {
-    database = await $FloorDrinkDatabase.databaseBuilder('app_database.db').build();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +52,7 @@ class _CocktailAppState extends State<CocktailApp> {
           create: (context) => categoryBloc
         ),
         BlocProvider<FavouriteCubit>(
-          create: (context) => FavouriteCubit(database.drinkDao)
+          create: (context) => FavouriteCubit(context.read<DataSource>())
         )
       ],
       child: MaterialApp(
