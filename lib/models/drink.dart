@@ -1,3 +1,4 @@
+import 'package:assignment/models/detail.dart';
 import 'package:floor/floor.dart';
 
 class Drink {
@@ -5,5 +6,7 @@ class Drink {
   final String imageUrl;
   final String id;
 
-  Drink({required this.name, required this.imageUrl, required this.id});
+  Detail? detail;
+
+  Drink({required this.name, required this.imageUrl, required this.id, this.detail});
 }
