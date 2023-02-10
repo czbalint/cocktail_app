@@ -3,8 +3,7 @@ import 'package:assignment/UI/bloc/category/category_states.dart';
 import 'package:assignment/UI/bloc/favourite/favourite_cubit.dart';
 import 'package:assignment/UI/widgets/drink_list.dart';
 import 'package:assignment/UI/widgets/drop_down.dart';
-import 'package:badges/badges.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' ;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -24,8 +23,9 @@ class HomeScreen extends StatelessWidget {
               builder: (context, state) {
                 if (state is FavouriteChange) {
                   return Badge(
-                    badgeContent: Text(state.drinks.length.toString()),
-                    position: BadgePosition.topEnd(top: 0, end: 0),
+                    alignment: const AlignmentDirectional(30, 3),
+                    label: Text(state.drinks.length.toString()),
+                    //position: BadgePosition.topEnd(top: 0, end: 0),
                     child: IconButton(
                       onPressed: () {
                           Navigator.pushNamed(context, "/favourite");

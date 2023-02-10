@@ -31,40 +31,47 @@ class DrinkListItem extends StatelessWidget {
                 )
               ]
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Stack(
-                alignment: AlignmentDirectional.center,
-                children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      child: Text(drink.name,
-                        style: const TextStyle(
-                          fontSize: 20,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(30),
+                onTap: () {},
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Stack(
+                    alignment: AlignmentDirectional.center,
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: Text(drink.name,
+                            style: const TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: BlocBuilder<FavouriteCubit, FavouriteCunitStates>(
+                          builder: (context, state) {
+                            if (state is FavouriteChange) {}
+                            return IconButton(
+                              onPressed: () {
+                                favCubit.changeFavourite(drink);
+                              },
+                              icon: Icon(Icons.favorite,
+                                size: 30,
+                                color: favCubit.containId(drink.id) ? Colors.red : Colors.grey,
+                              ),
+                            );
+                          }
+                        ),
+                      )
+                    ],
                   ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: BlocBuilder<FavouriteCubit, FavouriteCunitStates>(
-                      builder: (context, state) {
-                        if (state is FavouriteChange) {}
-                        return IconButton(
-                          onPressed: () {
-                            favCubit.changeFavourite(drink);
-                          },
-                          icon: Icon(Icons.favorite,
-                            size: 30,
-                            color: favCubit.containId(drink.id) ? Colors.red : Colors.grey,
-                          ),
-                        );
-                      }
-                    ),
-                  )
-                ],
+                ),
               ),
             ),
           ),
