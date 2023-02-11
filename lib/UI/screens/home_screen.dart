@@ -1,6 +1,8 @@
 import 'package:assignment/UI/bloc/category/category_bloc.dart';
 import 'package:assignment/UI/bloc/category/category_states.dart';
 import 'package:assignment/UI/bloc/favourite/favourite_cubit.dart';
+import 'package:assignment/UI/bloc/navigator/navgiator_event.dart';
+import 'package:assignment/UI/bloc/navigator/navigator_bloc.dart';
 import 'package:assignment/UI/widgets/drink_list.dart';
 import 'package:assignment/UI/widgets/drop_down.dart';
 import 'package:flutter/material.dart' ;
@@ -28,7 +30,7 @@ class HomeScreen extends StatelessWidget {
                     //position: BadgePosition.topEnd(top: 0, end: 0),
                     child: IconButton(
                       onPressed: () {
-                          Navigator.pushNamed(context, "/favourite");
+                        context.read<CustomNavigatorBloc>().add(PageChange(RouteNames.favourite()));
                       },
                       icon: const Icon(Icons.favorite)
                     ),
@@ -36,7 +38,7 @@ class HomeScreen extends StatelessWidget {
                 }
                 return IconButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, "/favourite");
+                      context.read<CustomNavigatorBloc>().add(PageChange(RouteNames.favourite()));
                     },
                     icon: const Icon(Icons.favorite)
                 );

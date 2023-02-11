@@ -1,7 +1,10 @@
+import 'package:assignment/models/drink.dart';
 import 'package:flutter/material.dart';
 
 class DetailsScreen extends StatelessWidget {
-  const DetailsScreen({Key? key}) : super(key: key);
+  const DetailsScreen({Key? key, required this.drink}) : super(key: key);
+
+  final Drink drink;
 
   @override
   Widget build(BuildContext context) {
