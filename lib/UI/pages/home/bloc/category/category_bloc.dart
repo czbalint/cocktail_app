@@ -1,5 +1,5 @@
-import 'package:assignment/UI/bloc/category/category_events.dart';
-import 'package:assignment/UI/bloc/category/category_states.dart';
+import 'package:assignment/UI/pages/home/bloc/category/category_events.dart';
+import 'package:assignment/UI/pages/home/bloc/category/category_states.dart';
 import 'package:assignment/database/services/http_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

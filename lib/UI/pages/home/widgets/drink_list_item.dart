@@ -1,5 +1,6 @@
-import 'package:assignment/UI/bloc/favourite/favourite_cubit.dart';
-import 'package:assignment/UI/widgets/photo_network.dart';
+import 'package:assignment/UI/bloc/navigator/navigation_cubit.dart';
+import 'package:assignment/UI/pages/favourite/bloc/favourite_cubit.dart';
+import 'package:assignment/UI/pages/home/widgets/photo_network.dart';
 import 'package:assignment/models/drink.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +36,12 @@ class DrinkListItem extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 borderRadius: BorderRadius.circular(30),
-                onTap: () {},
+                onTap: () {
+                  Map<String, dynamic> arg = <String, dynamic>{};
+                  arg['drink'] = drink;
+
+                  context.read<NavigationCubit>().push("/details", arg);
+                },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Stack(

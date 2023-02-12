@@ -1,5 +1,5 @@
-import 'package:assignment/UI/bloc/favourite/favourite_cubit.dart';
-import 'package:assignment/UI/widgets/drink_list.dart';
+import 'package:assignment/UI/pages/favourite/bloc/favourite_cubit.dart';
+import 'package:assignment/UI/pages/home/widgets/drink_list.dart';
 import 'package:assignment/models/drink.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

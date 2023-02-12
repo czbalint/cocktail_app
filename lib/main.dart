@@ -1,12 +1,10 @@
-import 'package:assignment/UI/bloc/category/category_bloc.dart';
-import 'package:assignment/UI/bloc/category/category_events.dart';
-import 'package:assignment/UI/bloc/favourite/favourite_cubit.dart';
-import 'package:assignment/UI/bloc/navigator/navgiator_event.dart';
-import 'package:assignment/UI/bloc/navigator/navigator_bloc.dart';
-import 'package:assignment/UI/bloc/navigator/navigator_state.dart';
-import 'package:assignment/UI/screens/details_screen.dart';
-import 'package:assignment/UI/screens/favourite_page.dart';
-import 'package:assignment/UI/screens/home_screen.dart';
+import 'package:assignment/UI/bloc/navigator/navigation_cubit.dart';
+import 'package:assignment/UI/pages/favourite/bloc/favourite_cubit.dart';
+import 'package:assignment/UI/pages/home/bloc/category/category_bloc.dart';
+import 'package:assignment/UI/pages/home/bloc/category/category_events.dart';
+import 'package:assignment/UI/widgets/navigation/information_parser.dart';
+import 'package:assignment/UI/widgets/navigation/page_config.dart';
+import 'package:assignment/UI/widgets/navigation/router_delegate.dart';
 import 'package:assignment/database/dao/floor_drink_repository.dart';
 import 'package:assignment/database/database/data_source.dart';
 import 'package:assignment/database/database/database.dart';
@@ -18,7 +16,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final dataSource = DataSource(FloorDrinkRepository());
   await dataSource.init();
-
 
   runApp(
     Provider<DataSource>(
@@ -36,15 +33,21 @@ class CocktailApp extends StatefulWidget {
 }
 
 class _CocktailAppState extends State<CocktailApp> {
-  final navigatorBloc = CustomNavigatorBloc();
+  final navigationCubit = NavigationCubit([PageConfig(location: '/')]);
 
   late CategoryBloc categoryBloc;
   late DrinkDatabase database;
+
+  late ERouterDelegate delegate;
+  late ERoutInformationParser parser;
 
   @override
   void initState()  {
     categoryBloc = CategoryBloc();
     categoryBloc.add(AppStarted());
+
+    delegate = ERouterDelegate(navigationCubit);
+    parser = ERoutInformationParser();
     super.initState();
   }
 
@@ -53,45 +56,21 @@ class _CocktailAppState extends State<CocktailApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<CustomNavigatorBloc>(
-            create: (context) => navigatorBloc
-        ),
         BlocProvider<CategoryBloc>(
           create: (context) => categoryBloc
         ),
         BlocProvider<FavouriteCubit>(
           create: (context) => FavouriteCubit(context.read<DataSource>())
+        ),
+        BlocProvider<NavigationCubit>(
+          create: (context) => navigationCubit
         )
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
         title: 'Cocktail app',
         theme: ThemeData(primarySwatch: Colors.amber),
-        home: BlocBuilder<CustomNavigatorBloc, CustomNavigationStates>(
-          builder: (context, state) {
-            return Navigator(
-              pages: [
-                //if (state is HomePageState)
-                  const MaterialPage(
-                      child: HomeScreen()
-                  ),
-                if (state is FavouritePageState)
-                  const MaterialPage(
-                    child: FavouriteScreen()
-                  ),
-                if (state is DetailsPageState)
-                  MaterialPage(
-                    child: DetailsScreen(drink: state.drink)
-                  ),
-
-              ],
-              onPopPage: (route, result) {
-                context.read<CustomNavigatorBloc>().add(PageChange(RouteNames.home()));
-                return route.didPop(result);
-              },
-            );
-          }
-        ),
-
+        routerDelegate: delegate,
+        routeInformationParser: parser,
       ),
     );
   }

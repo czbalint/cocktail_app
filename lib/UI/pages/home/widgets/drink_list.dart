@@ -1,4 +1,4 @@
-import 'package:assignment/UI/widgets/drink_list_item.dart';
+import 'package:assignment/UI/pages/home/widgets/drink_list_item.dart';
 import 'package:assignment/models/drink.dart';
 import 'package:flutter/material.dart';
 
