@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class PhotoNetwork extends StatelessWidget {
-  const PhotoNetwork({Key? key, required this.photo}) : super(key: key);
+  const PhotoNetwork({Key? key, required this.photo, required this.scale}) : super(key: key);
 
   final String photo;
+  final double scale;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class PhotoNetwork extends StatelessWidget {
           );
         });
       },
-      child: getImage(13)
+      child: getImage(scale)
     );
   }
 

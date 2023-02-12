@@ -90,7 +90,7 @@ class DrinkListItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               child: PhotoNetwork(
                 photo: drink.imageUrl,
-
+                scale: 13,
               )
             ),
           ),

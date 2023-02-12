@@ -1,3 +1,4 @@
+import 'package:assignment/UI/pages/home/widgets/photo_network.dart';
 import 'package:assignment/models/drink.dart';
 import 'package:flutter/material.dart';
 
@@ -10,9 +11,22 @@ class DetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Details"),
+        title: const Text("Details"),
       ),
-      body: Text(drink.name),
+      body: Stack(
+        children:  [
+          Align(
+            alignment: Alignment.topCenter,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15), bottomLeft: Radius.circular(15)),
+              child: PhotoNetwork(
+                photo: drink.imageUrl,
+                scale: 1,
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
