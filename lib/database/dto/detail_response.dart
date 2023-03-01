@@ -6,7 +6,7 @@ class DetailResponse{
 
   DetailResponse(this.drink);
   
-  factory DetailResponse.fromJson(Map<String, dynamic> json, Drink drink) => _fromJson(json, drink);
+  factory DetailResponse.fromJson(Map<String, dynamic> json, Drink drink) => _fromJson((json["drinks"] as List<dynamic>)[0], drink);
 }
 
 DetailResponse _fromJson(Map<String, dynamic> json, Drink drink) {

@@ -51,7 +51,6 @@ class _CocktailAppState extends State<CocktailApp> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(

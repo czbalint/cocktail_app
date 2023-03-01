@@ -40,7 +40,7 @@ class HttpService {
     try {
       Response response;
       response = await _dio.get(
-        'www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drink.id}'
+        'http://thecocktaildb.com/api/json/v1/1/lookup.php?i=${drink.id}'
       );
       if (response.statusCode != 200 || response.data is String) return null;
       return DetailResponse.fromJson(response.data, drink);
