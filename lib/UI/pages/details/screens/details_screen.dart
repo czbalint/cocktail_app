@@ -1,5 +1,8 @@
 import 'package:assignment/UI/bloc/navigator/navigation_cubit.dart';
 import 'package:assignment/UI/pages/details/widgets/details_content.dart';
+import 'package:assignment/UI/pages/details/widgets/details_shimmer.dart';
+import 'package:assignment/UI/pages/details/widgets/ingredient_card.dart';
+import 'package:assignment/database/services/http_service.dart';
 import 'package:assignment/models/drink.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,10 +17,12 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-  late ScrollController _controller;
+  final HttpService service = HttpService();
 
+  late ScrollController _controller;
   bool lastStatus = true;
   bool close = false;
+  Drink? drink;
   late final appBarHeight = MediaQuery.of(context).size.height * 0.4;
 
   _scrollListener() {
@@ -36,6 +41,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
     }
   }
 
+  _loadDetails() async {
+    var response = await service.getDetailsByDrink(widget.drink);
+    setState(() {
+      drink = response?.drink;
+    });
+  }
+
   double get getAppBarNormalHeight {
     if (_controller.hasClients) {
       return _controller.offset > appBarHeight ? double.infinity : _controller.offset / appBarHeight;
@@ -45,6 +57,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   void initState() {
+    _loadDetails();
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
     super.initState();
@@ -99,10 +112,28 @@ class _DetailsScreenState extends State<DetailsScreen> {
             pinned: true,
             expandedHeight: appBarHeight,
           ),
-          SliverList(delegate: SliverChildListDelegate([ //at kell szervezni sliverre az egesz oldalt
-            DetailsContent(drink: widget.drink,),
-
-          ]),)
+          SliverToBoxAdapter(
+            child: drink == null ? const DetailsShimmer() : DetailsContent(drink: drink!),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            sliver: SliverGrid(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                childAspectRatio: 2
+              ),
+              delegate: SliverChildBuilderDelegate((context, index) {
+                  return drink != null ? IngredientCard(
+                    name: drink!.detail?.ingredients[index] ?? "NoN",
+                    measure: drink!.detail?.measure[index] ?? "NoN",
+                  ) : Container();
+                },
+                childCount: drink?.detail?.ingredients.length
+              )
+            ),
+          )
         ],
       )
     );
