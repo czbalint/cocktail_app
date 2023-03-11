@@ -67,7 +67,7 @@ class _CocktailAppState extends State<CocktailApp> {
       ],
       child: MaterialApp.router(
         title: 'Cocktail app',
-        theme: ThemeData(primarySwatch: Colors.amber),
+        theme: ThemeData(primarySwatch: Colors.blue),
         routerDelegate: delegate,
         routeInformationParser: parser,
       ),

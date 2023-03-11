@@ -120,14 +120,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
             sliver: SliverGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                mainAxisSpacing: 10,
+                mainAxisSpacing: 20,
                 crossAxisSpacing: 10,
                 childAspectRatio: 2
               ),
               delegate: SliverChildBuilderDelegate((context, index) {
                   return drink != null ? IngredientCard(
                     name: drink!.detail?.ingredients[index] ?? "NoN",
-                    measure: drink!.detail?.measure[index] ?? "NoN",
+                    measure: drink!.detail!.measure.length <= index ? "-" : drink!.detail?.measure[index] ?? "NoN",
                   ) : Container();
                 },
                 childCount: drink?.detail?.ingredients.length
