@@ -130,8 +130,6 @@ class DetailsShimmer extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15)
               ),
             ),
-
-
           ],
         ),
       ),

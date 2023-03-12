@@ -3,10 +3,12 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class IngredientCard extends StatelessWidget {
-  const IngredientCard({Key? key, required this.name, required this.measure}) : super(key: key);
+  IngredientCard({Key? key, required this.name, required this.measure}) : super(key: key);
 
   final String name;
   final String measure;
+
+  final autoSizeGroup = AutoSizeGroup();
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +44,7 @@ class IngredientCard extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 5),
                       child: AutoSizeText(
                         name,
+                        group: autoSizeGroup,
                         maxLines: 2,
                         wrapWords: false,
                         textAlign: TextAlign.center,
@@ -51,10 +54,15 @@ class IngredientCard extends StatelessWidget {
                        // maxFontSize: 20,
                       )
                     ),
-                    Text(measure,
-                      style: const TextStyle(
-                        fontSize: 18
-                      ),
+                    AutoSizeText(
+                      measure,
+                      group: autoSizeGroup,
+                      maxLines: 1,
+                      wrapWords: false,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 18),
+                      minFontSize: 10,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
