@@ -7,7 +7,7 @@ class NavigationStack {
 
   NavigationStack(this._stack);
 
-  List<Page> get pages => List.unmodifiable(_stack.map((e) => e.page));
+  List<Page> get pages => (_stack.map((e) => e.page)).toList(); //List.unmodifiable(_stack.map((e) => e.page));
   List<PageConfig> get configs => _stack;
   int get length => _stack.length;
   PageConfig get first => _stack.first;

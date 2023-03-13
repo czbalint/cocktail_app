@@ -1,5 +1,6 @@
 import 'package:assignment/UI/pages/home/screens/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 class HomePage extends Page {
 
@@ -7,9 +8,13 @@ class HomePage extends Page {
 
   @override
   Route createRoute(BuildContext context) {
-    return MaterialPageRoute(
-      settings: this,
-      builder: (context) => const HomeScreen()
+    return PageTransition(
+        type: PageTransitionType.rightToLeft,
+        child: HomeScreen(),
+        inheritTheme: true,
+        ctx: context,
+        isIos: true,
+      settings: this
     );
   }
 
