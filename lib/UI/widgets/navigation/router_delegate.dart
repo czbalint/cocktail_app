@@ -12,13 +12,12 @@ class ERouterDelegate extends RouterDelegate<PageConfig>
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<NavigationCubit, NavigationStack>(
-      builder: (context, stack) => Navigator(
-        pages: stack.pages,
+    return BlocBuilder<NavigationCubit, NavigationCubitStates>(
+      builder: (context, state) => Navigator(
+        pages: (state.configs.map((e) => e.page)).toList(),
         key: navigatorKey,
         onPopPage: (route, result) => _onPopPage.call(route, result),
       ),
-      listener: (context, stack) {}
     );
   }
 
@@ -53,5 +52,5 @@ class ERouterDelegate extends RouterDelegate<PageConfig>
   }
 
   @override
-  PageConfig? get currentConfiguration => _cubit.state.last;
+  PageConfig? get currentConfiguration => _cubit.state.configs.last;
 }

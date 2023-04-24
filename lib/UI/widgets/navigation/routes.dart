@@ -11,9 +11,9 @@ Page getPage(PageConfig config) {
 }
 
 Map<String, Page Function(Map<String, dynamic>)> _routes = {
-  '/search': (args) =>  HomePage(),
-  '/favourite': (args) => FavouritePage(),
+  '/search': (args) =>  const HomePage(),
+  '/favourite': (args) => const FavouritePage(),
   '/details': (args) => DetailsPage(args: args),
-  '/': (arg) => MenuPage()
+  '/': (arg) => const MenuPage()
 };
 

@@ -5,7 +5,7 @@ class ERoutInformationParser extends RouteInformationParser<PageConfig> {
 
   @override
   Future<PageConfig> parseRouteInformation(RouteInformation routeInformation) async {
-    final String path = routeInformation.location ?? '';
+    final String path = routeInformation.location ?? '/';
     PageConfig config = PageConfig(location: path);
     return config;
   }

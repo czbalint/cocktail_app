@@ -21,22 +21,22 @@ class NavigationStack {
     return _stack.length > 1;
   }
 
-  NavigationStack pop() {
+  List<PageConfig> pop() {
     if (canPop()) _stack.remove(_stack.last);
-    return NavigationStack(_stack);
+    return _stack;
   }
 
-  NavigationStack pushBeneathCurrent(PageConfig config) {
+  List<PageConfig> pushBeneathCurrent(PageConfig config) {
     _stack.insert(_stack.length - 1, config);
-    return NavigationStack(_stack);
+    return _stack;
   }
 
-  NavigationStack push(PageConfig config) {
+  List<PageConfig> push(PageConfig config) {
     if (_stack.last != config) _stack.add(config);
-    return NavigationStack(_stack);
+    return _stack;
   }
 
-  NavigationStack replace(PageConfig config) {
+  List<PageConfig> replace(PageConfig config) {
     if (canPop()) {
       _stack.removeLast();
       push(config);
@@ -44,18 +44,18 @@ class NavigationStack {
       _stack.insert(0, config);
       _stack.removeLast();
     }
-    return NavigationStack(_stack);
+    return _stack;
   }
 
-  NavigationStack clearAndPush(PageConfig config) {
+  List<PageConfig> clearAndPush(PageConfig config) {
     _stack.clear();
     _stack.add(config);
-    return NavigationStack(_stack);
+    return _stack;
   }
 
-  NavigationStack clearAndPushAll(List<PageConfig> configs) {
+  List<PageConfig> clearAndPushAll(List<PageConfig> configs) {
     _stack.clear();
     _stack.addAll(configs);
-    return NavigationStack(_stack);
+    return _stack;
   }
 }
