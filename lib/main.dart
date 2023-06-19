@@ -1,7 +1,5 @@
 import 'package:assignment/UI/bloc/navigator/navigation_bloc.dart';
 import 'package:assignment/UI/pages/favourite/bloc/favourite_cubit.dart';
-import 'package:assignment/UI/pages/home/bloc/category/category_bloc.dart';
-import 'package:assignment/UI/pages/home/bloc/category/category_events.dart';
 import 'package:assignment/UI/widgets/navigation/information_parser.dart';
 import 'package:assignment/UI/widgets/navigation/navigation_stack.dart';
 import 'package:assignment/UI/widgets/navigation/page_config.dart';
@@ -36,7 +34,6 @@ class CocktailApp extends StatefulWidget {
 class _CocktailAppState extends State<CocktailApp> {
   final navigationBloc = NavigationBloc(NavigationStack(RouteConfiguration(destination: "/")));
 
-  late CategoryBloc categoryBloc;
   late DrinkDatabase database;
 
 
@@ -44,9 +41,6 @@ class _CocktailAppState extends State<CocktailApp> {
 
   @override
   void initState()  {
-    categoryBloc = CategoryBloc();
-    categoryBloc.add(AppStarted());
-
     parser = ERoutInformationParser();
     super.initState();
   }
@@ -55,9 +49,6 @@ class _CocktailAppState extends State<CocktailApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<CategoryBloc>(
-          create: (context) => categoryBloc
-        ),
         BlocProvider<FavouriteCubit>(
           create: (context) => FavouriteCubit(context.read<DataSource>())
         ),

@@ -8,7 +8,7 @@ class HomePage extends TransitionPage {
 
   @override
   Widget build(BuildContext context) {
-    return HomeScreen();
+    return const HomeScreen();
   }
 
 
