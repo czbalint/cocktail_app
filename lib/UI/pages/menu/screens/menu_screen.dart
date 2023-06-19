@@ -1,6 +1,7 @@
 import 'dart:ui';
 
-import 'package:assignment/UI/bloc/navigator/navigation_cubit.dart';
+import 'package:assignment/UI/bloc/navigator/navigation_bloc.dart';
+import 'package:assignment/UI/bloc/navigator/navigation_event.dart';
 import 'package:assignment/UI/pages/menu/widgets/menu_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +11,7 @@ class MenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final navigator = context.read<NavigationCubit>();
+    final navigator = context.read<NavigationBloc>();
 
     return Scaffold(
       body: SafeArea(
@@ -56,7 +57,8 @@ class MenuScreen extends StatelessWidget {
                           title: 'Favourites',
                           description: 'Search in favourites drinks',
                           onTap: () {
-                            navigator.push("/favourite");
+                            navigator.add(AddPageEvent(destination: "/favourite"));
+
                           },
                         ),
                         MenuItem(
@@ -65,7 +67,7 @@ class MenuScreen extends StatelessWidget {
                           title: 'Search',
                           description: 'Search drinks in database',
                           onTap: () {
-                            navigator.push("/search");
+                            navigator.add(AddPageEvent(destination: "/search"));
                           },
                         ),
                         MenuItem(

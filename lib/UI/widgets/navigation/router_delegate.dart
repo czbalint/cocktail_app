@@ -1,56 +1,57 @@
-import 'package:assignment/UI/bloc/navigator/navigation_cubit.dart';
+import 'package:assignment/UI/bloc/navigator/navigation_bloc.dart';
+import 'package:assignment/UI/bloc/navigator/navigation_event.dart';
 import 'package:assignment/UI/widgets/navigation/navigation_stack.dart';
 import 'package:assignment/UI/widgets/navigation/page_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ERouterDelegate extends RouterDelegate<PageConfig>
-    with ChangeNotifier, PopNavigatorRouterDelegateMixin<PageConfig> {
-  final NavigationCubit _cubit;
+class ERouterDelegate extends RouterDelegate<RouteConfiguration>
+    with ChangeNotifier, PopNavigatorRouterDelegateMixin<RouteConfiguration> {
 
-  ERouterDelegate(this._cubit);
+  @override
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  final NavigationBloc navigationBloc;
+
+  ERouterDelegate({required this.navigationBloc});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NavigationCubit, NavigationCubitStates>(
-      builder: (context, state) => Navigator(
-        pages: (state.configs.map((e) => e.page)).toList(),
-        key: navigatorKey,
-        onPopPage: (route, result) => _onPopPage.call(route, result),
-      ),
+    return BlocBuilder<NavigationBloc, NavigationStack>(
+      builder: (context, state) {
+        return Navigator(
+          key: navigatorKey,
+          pages: state.getPages(),
+          onPopPage: (route, result) => _onPopPage.call(route, result),
+        );
+      },
     );
   }
 
   @override
-  Future<bool> popRoute() async {
-    if (_cubit.canPop()) {
-      _cubit.pop();
+  Future<bool> popRoute() {
+    if (navigationBloc.canPop()) {
+      navigationBloc.add(PopPageEvent());
       return Future.value(true);
     }
-    return false;
+    return Future.value(false);
   }
 
   bool _onPopPage(Route<dynamic> route, dynamic result) {
-    final didPop = route.didPop(result);
-    if (!didPop) {
+    if (!route.didPop(result) || !navigationBloc.didPop()) {
       return false;
     }
-    if (_cubit.canPop()) {
-      _cubit.pop();
-      return true;
-    } else {
-      return false;
-    }
+    return true;
+  }
+
+
+  @override
+  Future<void> setNewRoutePath(RouteConfiguration configuration) async {
+    navigationBloc.add(AddPageEvent(destination: configuration.destination, args: configuration.args));
+
   }
 
   @override
-  GlobalKey<NavigatorState>? get navigatorKey => GlobalKey();
-
-  @override
-  Future<void> setNewRoutePath(PageConfig configuration) async {
-    if (configuration.route != '/') _cubit.push(configuration.route, configuration.args);
+  RouteConfiguration get currentConfiguration {
+    return navigationBloc.currentStack.getTopConfig();
   }
-
-  @override
-  PageConfig? get currentConfiguration => _cubit.state.configs.last;
 }

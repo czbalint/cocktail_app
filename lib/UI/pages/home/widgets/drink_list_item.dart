@@ -1,4 +1,5 @@
-import 'package:assignment/UI/bloc/navigator/navigation_cubit.dart';
+import 'package:assignment/UI/bloc/navigator/navigation_bloc.dart';
+import 'package:assignment/UI/bloc/navigator/navigation_event.dart';
 import 'package:assignment/UI/pages/favourite/bloc/favourite_cubit.dart';
 import 'package:assignment/UI/pages/home/widgets/photo_network.dart';
 import 'package:assignment/models/drink.dart';
@@ -40,7 +41,7 @@ class DrinkListItem extends StatelessWidget {
                   Map<String, dynamic> arg = <String, dynamic>{};
                   arg['drink'] = drink;
 
-                  context.read<NavigationCubit>().push("/details", arg);
+                  context.read<NavigationBloc>().add(AddPageEvent(destination: "/details", args: arg));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

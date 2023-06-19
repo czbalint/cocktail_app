@@ -1,4 +1,5 @@
-import 'package:assignment/UI/bloc/navigator/navigation_cubit.dart';
+import 'package:assignment/UI/bloc/navigator/navigation_bloc.dart';
+import 'package:assignment/UI/bloc/navigator/navigation_event.dart';
 import 'package:assignment/UI/pages/details/widgets/details_content.dart';
 import 'package:assignment/UI/pages/details/widgets/details_shimmer.dart';
 import 'package:assignment/UI/pages/details/widgets/ingredient_card.dart';
@@ -84,7 +85,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               ),
               child: IconButton(
                 onPressed: () {
-                  context.read<NavigationCubit>().pop();
+                  context.read<NavigationBloc>().add(PopPageEvent());
                 },
                 icon: const Icon(Icons.arrow_back)
               ),

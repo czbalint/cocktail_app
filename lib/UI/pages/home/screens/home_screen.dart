@@ -1,4 +1,5 @@
-import 'package:assignment/UI/bloc/navigator/navigation_cubit.dart';
+import 'package:assignment/UI/bloc/navigator/navigation_bloc.dart';
+import 'package:assignment/UI/bloc/navigator/navigation_event.dart';
 import 'package:assignment/UI/pages/favourite/bloc/favourite_cubit.dart';
 import 'package:assignment/UI/pages/home/bloc/category/category_bloc.dart';
 import 'package:assignment/UI/pages/home/bloc/category/category_states.dart';
@@ -29,8 +30,7 @@ class HomeScreen extends StatelessWidget {
                     //position: BadgePosition.topEnd(top: 0, end: 0),
                     child: IconButton(
                       onPressed: () {
-                        //context.read<CustomNavigatorBloc>().add(PageChange(RouteNames.favourite()));
-                        context.read<NavigationCubit>().push("/favourite");
+                        context.read<NavigationBloc>().add(AddPageEvent(destination: "/favourite"));
                       },
                       icon: const Icon(Icons.favorite)
                     ),
@@ -38,8 +38,7 @@ class HomeScreen extends StatelessWidget {
                 }
                 return IconButton(
                     onPressed: () {
-                      //context.read<CustomNavigatorBloc>().add(PageChange(RouteNames.favourite()));
-                      context.read<NavigationCubit>().push("/favourite");
+                      context.read<NavigationBloc>().add(AddPageEvent(destination: "/favourite"));
                     },
                     icon: const Icon(Icons.favorite)
                 );

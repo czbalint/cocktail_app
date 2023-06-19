@@ -1,61 +1,44 @@
+import 'package:assignment/UI/widgets/navigation/page_config.dart';
 import 'package:flutter/material.dart';
 
-import 'page_config.dart';
-
 class NavigationStack {
-  final List<PageConfig> _stack;
+  final List<RouteConfiguration> _routes = [];
 
-  NavigationStack(this._stack);
+  NavigationStack(RouteConfiguration initialRoute) {
+    addPage(initialRoute);
+  }
 
-  List<Page> get pages => (_stack.map((e) => e.page)).toList(); //List.unmodifiable(_stack.map((e) => e.page));
-  List<PageConfig> get configs => _stack;
-  int get length => _stack.length;
-  PageConfig get first => _stack.first;
-  PageConfig get last => _stack.last;
+  NavigationStack.copy(NavigationStack current) {
+    _routes.addAll(current._routes);
+  }
 
   void clear() {
-    _stack.removeRange(0, _stack.length - 2);
+    _routes.clear();
   }
 
-  bool canPop() {
-    return _stack.length > 1;
-  }
-
-  List<PageConfig> pop() {
-    if (canPop()) _stack.remove(_stack.last);
-    return _stack;
-  }
-
-  List<PageConfig> pushBeneathCurrent(PageConfig config) {
-    _stack.insert(_stack.length - 1, config);
-    return _stack;
-  }
-
-  List<PageConfig> push(PageConfig config) {
-    if (_stack.last != config) _stack.add(config);
-    return _stack;
-  }
-
-  List<PageConfig> replace(PageConfig config) {
-    if (canPop()) {
-      _stack.removeLast();
-      push(config);
-    } else {
-      _stack.insert(0, config);
-      _stack.removeLast();
+  void addPage(RouteConfiguration routeConfiguration) {
+    if (routeConfiguration.page != null) {
+      _routes.add(routeConfiguration);
     }
-    return _stack;
   }
 
-  List<PageConfig> clearAndPush(PageConfig config) {
-    _stack.clear();
-    _stack.add(config);
-    return _stack;
+  bool canPop(){
+    return _routes.length > 1;
   }
 
-  List<PageConfig> clearAndPushAll(List<PageConfig> configs) {
-    _stack.clear();
-    _stack.addAll(configs);
-    return _stack;
+  bool popPage() {
+    if (canPop()) {
+      _routes.removeLast();
+      return true;
+    }
+    return false;
   }
+
+  RouteConfiguration getTopConfig() {
+    return _routes.last;
+  }
+
+  List<RouteConfiguration> getRoutes() => _routes;
+
+  List<Page> getPages() => _routes.map((config) => config.page!).toList();
 }
